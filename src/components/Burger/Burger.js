@@ -1,8 +1,7 @@
-import React, {forwardRef} from "react";
+import React, {} from "react";
 
 import classes from './Burger.module.css'
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
-import {element} from "prop-types";
 
 const burger = (props) => {
 	const keysArray = Object.keys(props.ingredients);        //[salad, meat, ..]
