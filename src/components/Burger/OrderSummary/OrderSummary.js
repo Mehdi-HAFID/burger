@@ -10,7 +10,7 @@ const orderSummary = (props) => {
 				<span style = {{textTransform: 'capitalize'}}>{igKey}</span> : {props.ingredients[igKey]}
 			</li>
 		);
-	})
+	});
 	// <li>Meat : 2</li>
 	return (
 		<Aux>
