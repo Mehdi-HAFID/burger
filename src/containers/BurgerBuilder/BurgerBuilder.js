@@ -28,7 +28,7 @@ class BurgerBuilder extends Component {
 		purchasable: false,
 		purchasing: false,
 		loading: false,
-		axiosError: null
+		// axiosError: null
 	};
 
 	updatePurchasable(ingredients) {
@@ -97,14 +97,16 @@ class BurgerBuilder extends Component {
 		axios.post('/orders.j', order)
 			.then(response => this.setState({loading: false, purchasing: false}))
 			.catch(error => {
-				this.setState({loading: false, purchasing: false, axiosError: error});
+				this.setState({loading: false, purchasing: false,
+					// axiosError: error
+				});
 			});
 
 	};
 
-	errorConfirmedHandler = () => {
-		this.setState({axiosError: null})
-	};
+	// errorConfirmedHandler = () => {
+	// 	this.setState({axiosError: null})
+	// };
 
 
 	render() {
@@ -125,17 +127,13 @@ class BurgerBuilder extends Component {
 				              purchasedContinued = {this.purchaseContinueHandler}
 				              price = {this.state.totalPrice}/>
 		}
-		// let axiosErrorModal = null
-		// if(this.state.axiosError){
-		// 	axiosErrorModal =
 
-		// }
 
 		return (
 			<Aux>
-				<Modal show = {this.state.axiosError} modalClosed = {this.errorConfirmedHandler}>
-					{this.state.axiosError ? this.state.axiosError.message : null}
-				</Modal>
+				{/*<Modal show = {this.state.axiosError} modalClosed = {this.errorConfirmedHandler}>*/}
+				{/*	{this.state.axiosError ? this.state.axiosError.message : null}*/}
+				{/*</Modal>*/}
 				<Modal show = {this.state.purchasing} modalClosed = {this.purchaseCancelHandler}>
 					{orderSummary}
 				</Modal>
@@ -153,5 +151,5 @@ class BurgerBuilder extends Component {
 	}
 }
 
-// export default withErrorHandler(BurgerBuilder, axios);
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);
+// export default BurgerBuilder;
