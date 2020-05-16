@@ -87,6 +87,7 @@ class BurgerBuilder extends Component {
 			console.log('key : ' + i);
 			queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
 		}
+		queryParams.push('price=' + this.state.totalPrice);
 		const queryString = queryParams.join('&');
 
 		this.props.history.push({
@@ -95,29 +96,7 @@ class BurgerBuilder extends Component {
 		});
 
 
-		// this.setState({loading: true});
-		// // alert('You continue');
-		// const order = {
-		// 	ingredients: this.state.ingredients,
-		// 	price: this.state.totalPrice,
-		// 	customer: {
-		// 		name: 'Imran Hafid',
-		// 		address: {
-		// 			street: 'Miami N 40',
-		// 			zipCode: 33137,
-		// 			country: 'USA'
-		// 		},
-		// 		email: 'mehdi@derbyware.com'
-		// 	},
-		// 	deliveryMethod: 'Fastest'
-		// };
-		// axios.post('/orders.j', order)
-		// 	.then(response => this.setState({loading: false, purchasing: false}))
-		// 	.catch(error => {
-		// 		this.setState({loading: false, purchasing: false,
-		// 			// axiosError: error
-		// 		});
-		// 	});
+
 
 	};
 
