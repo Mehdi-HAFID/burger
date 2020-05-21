@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
 
 import Button from "../../../components/UI/Button/Button";
 import classes from './ContactData.module.css'
@@ -47,7 +48,8 @@ class ContactData extends Component {
 				validation: {
 					required: true,
 					minLength: 5,
-					maxLength: 5
+					maxLength: 5,
+					isNumeric: true
 				},
 				valid: false,
 				touched: false
@@ -74,6 +76,7 @@ class ContactData extends Component {
 				value: '',
 				validation: {
 					required: true,
+					isEmail: true
 				},
 				valid: false,
 				touched: false
@@ -106,7 +109,7 @@ class ContactData extends Component {
 		}
 
 		const order = {
-			ingredients: this.props.ingredients,
+			ingredients: this.props.ings,
 			price: this.props.price,
 			orderDara: formData
 		};
@@ -125,6 +128,10 @@ class ContactData extends Component {
 	checkValidity = (value, rules) => {
 		let isValid = true;
 
+		if (!rules) {
+			return true;
+		}
+
 		if (rules.required) {
 			isValid = value.trim() !== '' && isValid;
 		}
@@ -135,6 +142,16 @@ class ContactData extends Component {
 
 		if (rules.maxLength) {
 			isValid = value.length <= rules.maxLength && isValid;
+		}
+
+		if (rules.isEmail) {
+			const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+			isValid = pattern.test(value) && isValid
+		}
+
+		if (rules.isNumeric) {
+			const pattern = /^\d+$/;
+			isValid = pattern.test(value) && isValid
 		}
 
 		return isValid;
@@ -152,7 +169,7 @@ class ContactData extends Component {
 
 		//Validity
 		updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-		console.log(updatedFormElement);
+		// console.log(updatedFormElement);
 		updatedFormElement.touched = true;
 
 		updatedOrderFrom[inputIdentifier] = updatedFormElement;
@@ -172,7 +189,7 @@ class ContactData extends Component {
 		for (let key in this.state.orderForm) {
 			formElementArray.push({id: key, config: this.state.orderForm[key]})
 		}
-		let form = <form>
+		let form = <form onSubmit = {this.orderHandler}>
 			{formElementArray.map(element => (
 				<Input key = {element.id}
 				       elementType = {element.config.elementType}
@@ -184,8 +201,7 @@ class ContactData extends Component {
 				       touched = {element.config.touched}/>
 			))}
 
-			<Button btnType = 'Success' clicked = {this.orderHandler} disabled = {!this.state.formIsValid}>
-				ORDER</Button>
+			<Button btnType = 'Success' disabled = {!this.state.formIsValid}> ORDER </Button>
 		</form>;
 		if (this.state.loading) {
 			form = <Spinner/>;
@@ -200,4 +216,11 @@ class ContactData extends Component {
 
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+	return {
+		ings: state.ingredients,
+		price: state.totalPrice
+	};
+};
+
+export default connect(mapStateToProps)(ContactData);
