@@ -15,17 +15,11 @@ import * as burgerBuilderActions from '../../store/actions/index';
 class BurgerBuilder extends Component {
 	state = {
 		purchasing: false,
-		loading: false,
-		// axiosError: null
-		error: false
+
 	};
 
 	componentDidMount() {
-		// axios.get('https://burger-m.firebaseio.com/ingredients.json').then(response => {
-		// 	this.setState({ingredients: response.data});
-		// }).catch(error => {
-		// 	this.setState({error: true});
-		// });
+		this.props.onInitIngredients();
 	}
 
 	updatePurchasable(ingredients) {
@@ -64,7 +58,7 @@ class BurgerBuilder extends Component {
 		}
 
 		let orderSummary;
-		let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner/>;
+		let burger = this.props.error ? <p>Ingredients can't be loaded</p> : <Spinner/>;
 		console.log(this.props.ings);
 		if (this.props.ings) {
 
@@ -84,9 +78,7 @@ class BurgerBuilder extends Component {
 				              purchasedContinued = {this.purchaseContinueHandler}
 				              price = {this.props.price}/>
 		}
-		if (this.state.loading) {
-			orderSummary = <Spinner/>
-		}
+
 
 		return (
 			<Aux>
@@ -106,14 +98,16 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
 	return {
 		ings: state.ingredients,
-		price: state.totalPrice
+		price: state.totalPrice,
+		error: state.error
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		onIngredientAdded: (igName) => dispatch(burgerBuilderActions.addIngredient(igName)),
-		onIngredientRemoved: (igName) => dispatch(burgerBuilderActions.removeIngredient(igName))
+		onIngredientRemoved: (igName) => dispatch(burgerBuilderActions.removeIngredient(igName)),
+		onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
 	};
 };
 
