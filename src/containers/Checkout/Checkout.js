@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Route, Redirect} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 import {connect} from "react-redux";
 
 import ContactData from "./ContactData/ContactData";
