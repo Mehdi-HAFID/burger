@@ -22,7 +22,7 @@ class App extends Component {
 
 	render() {
 		let routes = (
-			<Suspense fallback = {Spinner}>
+			<Suspense fallback = {Spinner()}>
 				<Switch>
 					<Route path = "/auth" component = {asyncAuth}/>
 					<Route path = '/' exact component = {BurgerBuilder}/>
@@ -32,7 +32,7 @@ class App extends Component {
 		);
 		if (this.props.isAuthenticated) {
 			routes = (
-				<Suspense fallback = {Spinner}>
+				<Suspense fallback = {Spinner()}>
 					<Switch>
 						<Route path = '/checkout' component = {asyncCheckout}/>
 						<Route path = '/orders' component = {asyncOrders}/>
